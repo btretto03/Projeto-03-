@@ -130,7 +130,7 @@ while True:
         elif tecla == 'enter':
             limpar()
             if "Criar nova tarefa" in opcoes_do_menu[opcao]:
-                    exec(open("criar_tarefas.py").read())
+                    exec(open("criar_tarefas.py", encoding='utf-8').read())
                     limpar()
                     
             if "Sair" in opcoes_do_menu[opcao]:

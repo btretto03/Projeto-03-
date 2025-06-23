@@ -1,1 +1,2 @@
-exec(open("Interface.py").read())
+import interface
+interface.iniciar_interface()
