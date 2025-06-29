@@ -1,5 +1,7 @@
 import os
 import sys
+import re
+from datetime import datetime
 from Tarefa import Tarefa
 
 lista_titulos = []
@@ -218,10 +220,30 @@ if __name__ == "__main__":
                 break
     menu_criar(titulo, tags, prioridade, repetição, data)
 
+   
     def escolher_data():
-        data= input("data: ")
-        limpar_tela()
-        return data
+        '''
+        Solicita uma data para o usuário no formato dd/mm/aaaa
+        Continua pedindo até que seja inserida no formato válido
+        '''
+        while True:
+            data = input('data (dd/mm/aaaa): ')
+            limpar_tela()
+            
+            #Verifica o formato dd/mm/aaaa
+            if re.match(r'^\d{2}\/\d{2}\/\d{4}$', data):
+                
+                # Verifica se a data é real
+                try:
+                    datetime.strptime(data, '%d/%m/%Y')
+
+                    return data
+                except ValueError:
+                    print('Data inválida. Por favor, insira uma data real no formato dd/mm/aaaa.')
+            else:
+                print('Formato Inválido. Por favor, insira a data no formato dd/mm/aaaa.')
+                print('Exemplo: 01/01/2025')
+
     data = escolher_data()
     menu_criar(titulo, tags, prioridade, repetição, data)
     
@@ -243,3 +265,16 @@ if __name__ == "__main__":
         escrever.write(f"-  {titulo:20} | {tags:20} | {prioridade:20} | {data:20} | {"Não concluida":20} " "\n")
     with open("Nomes_tarefas.txt", "a") as escrever:
         escrever.write(f"{titulo}" "\n")
+            
+            
+            
+            
+
+
+
+
+    
+    
+
+
+        
