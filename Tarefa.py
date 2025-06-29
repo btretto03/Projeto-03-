@@ -7,6 +7,7 @@ class Tarefa():
   prioridade:str
   repetição:str
   data:str
+  id:int
 
 
   

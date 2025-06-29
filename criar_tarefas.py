@@ -129,6 +129,39 @@ if __name__ == "__main__":
     titulo = escolher_titulo()
     menu_criar(titulo = titulo,tags = "",prioridade = "",repetição = "",data = "")
 
+    
+    
+    id_file = 'ultima_tarefa_id.txt'
+
+    def carregar_ultimo_id():
+        '''Carrega o id da ultima tarefa'''
+        if os.path.exists(id_file):
+            with open(id_file, 'r') as f:
+                try:
+                    return int(f.read().strip())
+                
+                # se o arquivo estiver vazio começa do 0
+                except ValueError:
+                    return 0
+    
+    def salvar_ultimo_id(novo_id):
+        '''Salva o ID númerico atual no arquivo'''
+        with open(id_file, 'w') as f:
+            f.write(str(novo_id))
+
+    def gerar_proximo_id():
+        '''
+        Gera o próximo id sequencial como um inteiro
+        '''
+        ultimo_id = carregar_ultimo_id()
+        novo_id = ultimo_id + 1
+        salvar_ultimo_id(novo_id)
+        return novo_id
+    
+    id = gerar_proximo_id()
+
+
+
     # Input tags
 
     tags = ["Nenhuma tag disponivel"]
@@ -247,7 +280,7 @@ if __name__ == "__main__":
     data = escolher_data()
     menu_criar(titulo, tags, prioridade, repetição, data)
     
-    nova_tarefa = Tarefa(titulo = titulo, tags = tags, prioridade = prioridade, repetição = repetição, data = data)
+    nova_tarefa = Tarefa(titulo = titulo, id=id, tags = tags, prioridade = prioridade, repetição = repetição, data = data)
     
     lista_titulos.append(nova_tarefa.titulo)
     lista_tags.append(nova_tarefa.tags)
@@ -264,7 +297,7 @@ if __name__ == "__main__":
     with open("dados_tarefas.txt", "a") as escrever:
         escrever.write(f"-  {titulo:20} | {tags:20} | {prioridade:20} | {data:20} | {"Não concluida":20} " "\n")
     with open("Nomes_tarefas.txt", "a") as escrever:
-        escrever.write(f"{titulo}" "\n")
+        escrever.write(f"{titulo} - {id}" "\n")
             
             
             
