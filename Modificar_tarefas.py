@@ -35,32 +35,6 @@ if __name__ == "__main__":
     '''
     os.system('cls' if EH_WINDOWS else 'clear')
     
-    
-  limpar()
-  def desenhar_layout():
-    nova_lista = [] 
-    with open("dados_tarefas.txt", "r") as dados: #Visualizar as tarefas no arquivo e adiciona-las a uma lista
-      for lista in dados:
-        nova_lista.append(lista.strip())
-  
-    while True:
-        if len(nova_lista) == 0:
-            print("Nenhuma tarefa adicionada")
-            sair = input("Pressione qualquer tecla para sair \n")
-            return "s"
-        else:
-            print(NEGRITO+"="*114+RESET )
-            print(f"{"        Tarefas":25} | {"       Tag":20} | {"    Prioridade":20} | {"     Data":20} | {"     Concluida"} ")
-            print(NEGRITO+"-"*114+RESET )
-            print(f"     {"":20} | {"":20} | {"":20} | {"":20} | {"":20} ")
-            for i in range(len(nova_lista)):
-                print(i+1, nova_lista[i])
-                print(f"     {"":20} | {"":20} | {"":20} | {"":20} | {"":20} ")
-                print(NEGRITO+"-"*114+RESET )
-            modificar = input("Digite o numero da tarefa que deseja modificar. Para sair digite s\n")
-
-            return modificar
-
 
   if EH_WINDOWS: #Caso o sistema operacional seja windows, usamos esse codigo para capturar a tecla
       import msvcrt
@@ -108,170 +82,139 @@ if __name__ == "__main__":
           finally:
               termios.tcsetattr(fd, termios.TCSADRAIN, old)
           return None
-  sim = True
-  while sim:
-    modificar = desenhar_layout()
-    if modificar == "s":
-      sim = False
-      break
-    else:
-      def menu_criar(titulo = "",tags = "",prioridade = "",repetição = "",data = ""):
-        ''' Menu para criar novas tarefas
-          
-          '''
-        limpar()
-        nova_lista = [] 
-        with open("dados_tarefas.txt", "r") as dados: #Visualizar as tarefas no arquivo e adiciona-las a uma lista
-            for lista in dados:
-                nova_lista.append(lista.strip())
-        print(NEGRITO+"="*114+RESET )
-        print(f"{"        Tarefas":25} | {"       Tag":20} | {"    Prioridade":20} | {"     Data":20} | {"     Concluida"} ")
-        print(NEGRITO+"-"*114+RESET )
-        print(f"     {"":20} | {"":20} | {"":20} | {"":20} | {"":20} ")
-        print(int(modificar)-1, nova_lista[int(modificar)-1])
-        print(NEGRITO+"="*42+RESET )
-        print(WBLUE + f"{"Criar tarefa":^42}" + RESET)
-        print(NEGRITO+"="*42+RESET )
-        print(f"| Título:{titulo:32}|")
-        print("-"*42)
-        print(f"| Tags: {tags:33}|")
-        print("-"*42)
-        print(f"| Prioridade: {prioridade:27}|")
-        print("-"*42)
-        print(f"| Repetição: {repetição:28}|")
-        print("-"*42)
-        print(f"| Data: {data:33}|")
-        print(NEGRITO+ ("-"*42) + RESET)
-        print()
-          
 
-      # Inicial
-      titulo = ""
-      tags = ""
-      prioridade = ""
-      repetição = ""
-      data = ""
-
-      menu_criar(titulo, tags, prioridade, repetição, data)
-
-      # Input Nome
-      def escolher_titulo():
-          titulo = input("Titulo: ")
-          limpar()
-          return titulo
-      titulo = escolher_titulo()
-      menu_criar(titulo = titulo,tags = "",prioridade = "",repetição = "",data = "")
-
-      # Input tags
-
-      tags = ["Nenhuma tag disponivel"]
-      opcao_tags = 0
-      def escolher_tag(): 
-          print("Escolha a tag:")
-          global opcao_tags  
-          for i, item in enumerate(tags):
-              if i == opcao_tags :
-                  print( " "* 2 + SUBLINHADO + " "* 1 + f"  {item}     " + RESET)
-              else:
-                  print(f"    {item}" )
-          
-      while True:  
-              escolher_tag()
-              tecla = tecla_apertada()
-              if tecla == 'cima':
-                  limpar()
-                  menu_criar(titulo = titulo,tags = "",prioridade = "",repetição = "",data = "")
-                  opcao_tags = (opcao_tags - 1) % len(tags)
-              elif tecla == 'baixo':
-                  limpar()
-                  menu_criar(titulo = titulo,tags = "",prioridade = "",repetição = "",data = "")
-                  opcao_tags = (opcao_tags + 1) % len(tags)
-              elif tecla == 'enter':
-                  tags = "Indisponivel"
-                  limpar()
-                  break      
-      menu_criar(titulo, tags, prioridade, repetição, data)
-
-
-      # Input prioridade
-      prioridades = ["Baixa", "Media", "Alta"]
-      opcao_prioridades = 0
-      def escolher_prioridades(): 
-          print("Defina a prioridade:")
-          global opcao_prioridades  
-          for i, item in enumerate(prioridades):
-              if i == opcao_prioridades :
-                  print( " "* 2 + SUBLINHADO + " "* 1 + f"  {item}     " + RESET)
-              else:
-
-                  print(f"    {item}" )
-
-      while True:
-              escolher_prioridades()
-              tecla = tecla_apertada()
-              if tecla == 'cima':
-                  limpar()
-                  opcao_prioridades = (opcao_prioridades - 1) % len(prioridades)
-                  menu_criar(titulo = titulo,tags = tags,prioridade = "",repetição = "",data = "")
-              elif tecla == 'baixo':
-                  limpar()
-                  opcao_prioridades = (opcao_prioridades + 1) % len(prioridades)
-                  menu_criar(titulo = titulo,tags = tags,prioridade = "",repetição = "",data = "")
-              elif tecla == 'enter':
-                  prioridade = prioridades[opcao_prioridades]
-                  limpar()
-                  break
-      menu_criar(titulo, tags, prioridade, repetição, data)
-
-
-      # Input repeticao
-      repeticao = ["Nenhuma","Diária", "Semanal","Mensal","Anual"]
-      opcao_repeticao = 0
-      def escolher_repeticao(): 
-          print("Escolha a frêquencia:")
-          global opcao_repeticao  
-          for i, item in enumerate(repeticao):
-              if i == opcao_repeticao :
-                  print( " "* 2 + SUBLINHADO + " "* 1 + f"  {item}     " + RESET)
-              else:
-                  print(f"    {item}" )
-
-      while True:
-              escolher_repeticao()
-              tecla = tecla_apertada()
-              if tecla == 'cima':
-                  limpar()
-                  opcao_repeticao = (opcao_repeticao - 1) % len(repeticao)
-                  menu_criar(titulo = titulo,tags = tags,prioridade = prioridade,repetição = "",data = "")
-              elif tecla == 'baixo':
-                  limpar()
-                  opcao_repeticao = (opcao_repeticao + 1) % len(repeticao)
-                  menu_criar(titulo = titulo,tags = tags,prioridade = prioridade,repetição = "",data = "")
-              elif tecla == 'enter':
-                  repetição = repeticao[opcao_repeticao]
-                  limpar()
-                  break
-      menu_criar(titulo, tags, prioridade, repetição, data)
-
-      def escolher_data():
-          data= input("data: ")
-          limpar()
-          return data
-      data = escolher_data()
-      menu_criar(titulo, tags, prioridade, repetição, data)
-      
-      nova_tarefa = Tarefa(titulo = titulo, tags = tags, prioridade = prioridade, repetição = repetição, data = data)
-      
-      with open("Nomes_tarefas.txt", "a") as escrever:
-          escrever.write(f"{titulo}" "\n")
-              
-      with open("dados_tarefas.txt", "r") as arquivo:
-          linhas = arquivo.readlines()
-          
-      try:
-        linhas[int(modificar)-1] = f"-  {titulo:20} | {tags:20} | {prioridade:20} | {data:20} | {"Não concluida":20} " "\n"
-        with open("dados_tarefas.txt", "w") as arquivo:
-            arquivo.writelines(linhas)   
-      except:
-        print("Nenhuma tarefa com esse numero")  
+def menu_filtro():
     limpar()
+    opcoes = ["Todas as Tarefas", "Tarefas Pendentes", "Tarefas Concluídas", "Sair para Menu Principal"]
+    opcao_atual = 0
+    while True:
+        limpar()
+        print("Como você deseja listar as tarefas?")
+        for i, item in enumerate(opcoes):
+            if i == opcao_atual:
+                print("  " + SUBLINHADO + f"  {item}  " + RESET)
+            else:
+                print(f"    {item}")
+        tecla = tecla_apertada()
+        if tecla == 'cima':
+            opcao_atual = (opcao_atual - 1) % len(opcoes)
+        elif tecla == 'baixo':
+            opcao_atual = (opcao_atual + 1) % len(opcoes)
+        elif tecla == 'enter':
+            return opcoes[opcao_atual]
+        
+def menu_gerenciar_acao(tarefa_selecionada):
+    limpar()
+    opcoes = ["Modificar Tarefa", "Marcar como Concluída", "Excluir Tarefa", "Cancelar"]
+    opcao_atual = 0
+    while True:
+        limpar()
+        print("Gerenciando a Tarefa:")
+        print(f"-> {tarefa_selecionada}\n")
+        print("Escolha uma ação:")
+        for i, item in enumerate(opcoes):
+            if i == opcao_atual:
+                print("  " + SUBLINHADO + f"  {item}  " + RESET)
+            else:
+                print(f"    {item}")
+        
+        tecla = tecla_apertada()
+        if tecla == 'cima':
+            opcao_atual = (opcao_atual - 1) % len(opcoes)
+        elif tecla == 'baixo':
+            opcao_atual = (opcao_atual + 1) % len(opcoes)
+        elif tecla == 'enter':
+            return opcoes[opcao_atual]
+               
+def desenhar_layout(filtro):
+    limpar()
+    todas_as_tarefas = [] 
+    try:
+        with open("dados_tarefas.txt", "r", encoding='utf-8') as dados:
+            for lista in dados:
+                todas_as_tarefas.append(lista.strip())
+    except FileNotFoundError:
+        print("Nenhuma tarefa adicionada ainda.")
+        input("Pressione qualquer tecla para sair \n")
+        return "s", None
+    
+    lista_filtrada = []
+    if filtro == "Tarefas Pendentes":
+        for tarefa in todas_as_tarefas:
+            if "Não concluida" in tarefa:
+                lista_filtrada.append(tarefa)
+    elif filtro == "Tarefas Concluídas":
+        for tarefa in todas_as_tarefas:
+            if "Concluida" in tarefa and "Não concluida" not in tarefa:
+                lista_filtrada.append(tarefa)
+    else:
+        lista_filtrada = todas_as_tarefas
+
+    if len(lista_filtrada) == 0:
+        print(f"Nenhuma tarefa encontrada para o filtro: '{filtro}'")
+        input("Pressione qualquer tecla para continuar...")
+        return None, None
+    else:
+        print(NEGRITO+"="*114+RESET )
+        print(f"Mostrando: {filtro}")
+        print(NEGRITO+"-"*114+RESET )
+        print(f"{"         Tarefas":25} | {"         Tag":20} | {"      Prioridade":20} | {"        Data":20} | {"      Concluida"} ")
+        print(NEGRITO+"-"*114+RESET )
+        for i in range(len(lista_filtrada)):
+            print(f"{i+1}. {lista_filtrada[i]}")
+            print(NEGRITO+"-"*114+RESET )
+        modificar = input("Digite o numero da tarefa que deseja gerenciar. Para voltar digite s\n")
+        return modificar, lista_filtrada
+
+sim = True
+while sim:
+    filtro_escolhido = menu_filtro()
+    if filtro_escolhido == "Sair para Menu Principal":
+        sim = False
+        break
+    modificar, lista_de_tarefas_filtrada = desenhar_layout(filtro=filtro_escolhido)
+    if modificar is None:
+        continue
+    if modificar.lower() == "s":
+        continue
+    try:
+        indice_escolhido = int(modificar) - 1
+        if not (0 <= indice_escolhido < len(lista_de_tarefas_filtrada)):
+            print("\nNúmero da tarefa inválido.")
+            input("Pressione Enter para tentar novamente...")
+            continue
+        
+        tarefa_escolhida_str = lista_de_tarefas_filtrada[indice_escolhido]
+        acao = menu_gerenciar_acao(tarefa_escolhida_str)
+
+        if acao == "Cancelar":
+            continue
+
+        linhas_originais = []
+        with open("dados_tarefas.txt", "r", encoding="utf-8") as arquivo:
+            for linha in arquivo:
+                linhas_originais.append(linha.strip())
+
+        indice_real_no_arquivo = linhas_originais.index(tarefa_escolhida_str)
+
+        if acao == "Marcar como Concluída":
+            partes_tarefa = linhas_originais[indice_real_no_arquivo].split('|')
+            partes_tarefa[4] = f' {"Concluida":<20} '
+            linhas_originais[indice_real_no_arquivo] = '|'.join(partes_tarefa)
+        
+        elif acao == "Excluir Tarefa":
+            del linhas_originais[indice_real_no_arquivo]
+
+        elif acao == "Modificar Tarefa":
+            print("\n Falta fazer aqui")
+            input("Pressione Enter para continuar...")
+            continue 
+
+        with open("dados_tarefas.txt", "w", encoding="utf-8") as arquivo:
+            for linha in linhas_originais:
+                arquivo.write(linha + "\n")
+        
+    except (ValueError, TypeError):
+        print("\nEntrada inválida. Por favor, digite um número válido.")
+        input("Pressione Enter para tentar novamente...")
+
