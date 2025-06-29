@@ -4,7 +4,7 @@ import datetime as dt
 
 
 
-IS_WINDOWS = os.name == 'nt'
+EH_WINDOWS = os.name == 'nt'
 
 #Cores de texto
 RED = "\033[3;0;41m"
@@ -27,19 +27,13 @@ SUBLINHADO = "\033[3;30;47m"
 SUBLINHADO_VERMELHO = "\033[3;30;47m"
 FRACO =  "\033[0;30m"
 
-def ler_codigo_de_arquivo(caminho):
-    try:
-        with open(caminho, 'r', encoding='utf-8') as arquivo:
-            conteudo = arquivo.read()
-        return conteudo
-    except FileNotFoundError:
-        return "Arquivo não encontrado."
+a = True
     
-while True:
+while a:
     opções_do_menu = ["Criar nova tarefa", "Modificar tarefas", "Visualizar tarefas", "Sair"]
     opcao = 0
 
-    if IS_WINDOWS: #Caso o sistema operacional seja windows, usamos esse codigo para capturar a tecla
+    if EH_WINDOWS: #Caso o sistema operacional seja windows, usamos esse codigo para capturar a tecla
         import msvcrt
 
         def tecla_apertada():
@@ -86,14 +80,14 @@ while True:
         """ Limpa o terminal após cada print
             
             """
-        os.system('cls' if IS_WINDOWS else 'clear')
+        os.system('cls' if EH_WINDOWS else 'clear')
 
     def mostrar_menu():
         limpar()
         largura = 40
-        print(NEGRITO + "─"* 57 + RESET)
+        print(NEGRITO + "="* 57 + RESET)
         print(WBLUE + " "* 20 + WBLUE + " MENU PRINCIPAL " + WBLUE + " "* 21 + WNEGRITO )
-        print(NEGRITO + "─"* 57 + RESET)
+        print(NEGRITO + ""* 57 + RESET)
         dia = dt.date.today()           
         dia_formatado = dia.strftime("%d/%m/%Y")
         print(
@@ -104,14 +98,14 @@ while True:
     )
         for i, item in enumerate(opções_do_menu):
             if i == opcao and opcao != 3:
-                print( " "* 2 + SUBLINHADO + " "* 3 + f" ⟶ {item}     " + RESET)
+                print( " "* 2 + SUBLINHADO + " "* 3 + f"  {item}     " + RESET)
             elif i == opcao and opcao == 3:
-                print( " "* 2 + SUBLINHADO_VERMELHO + " "* 3 + f" ⟶ {item}     " + RESET)
+                print( " "* 2 + SUBLINHADO_VERMELHO + " "* 3 + f"  {item}     " + RESET)
 
             else:
                 print(f"    {item}" )
         print()
-        print(NEGRITO + "─"* 57 + RESET)
+        print(NEGRITO + "="* 57 + RESET)
     
 
     while True:
@@ -130,12 +124,15 @@ while True:
         elif tecla == 'enter':
             limpar()
             if "Criar nova tarefa" in opções_do_menu[opcao]:
-                    exec(open("criar_tarefas.py").read())
-                    limpar()
+                    exec(open("criar_tarefas.py", encoding='utf-8').read())
                     
-            if "Sair" in opções_do_menu[opcao]:
+            elif "Visualizar tarefas" in opções_do_menu[opcao]:
+                    exec(open("Visualisar_tarefas.py",encoding='utf-8').read())
+                    
+            elif "Sair" in opções_do_menu[opcao]:
                 input("\nPressione Enter para sair...")
                 if tecla == 'enter':
+                    a = False
                     break
 
 
