@@ -8,6 +8,7 @@ class Tarefa():
   repetição:str
   data:str
 
+
   
   
   

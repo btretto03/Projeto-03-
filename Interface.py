@@ -30,7 +30,7 @@ FRACO =  "\033[0;30m"
 a = True
     
 while a:
-    opções_do_menu = ["Criar nova tarefa", "Modificar tarefas", "Visualizar tarefas", "Sair"]
+    opções_do_menu = ["Criar nova lista de tarefas", "Criar nova tarefa", "Modificar tarefas", "Visualizar tarefas", "Sair"]
     opcao = 0
 
     if EH_WINDOWS: #Caso o sistema operacional seja windows, usamos esse codigo para capturar a tecla
@@ -81,13 +81,18 @@ while a:
             
             """
         os.system('cls' if EH_WINDOWS else 'clear')
-
+    limpar()
+    
     def mostrar_menu():
+        '''Interface principal
+        
+        '''
+        
         limpar()
         largura = 40
         print(NEGRITO + "="* 57 + RESET)
         print(WBLUE + " "* 20 + WBLUE + " MENU PRINCIPAL " + WBLUE + " "* 21 + WNEGRITO )
-        print(NEGRITO + ""* 57 + RESET)
+        print(NEGRITO + "="* 57 + RESET)
         dia = dt.date.today()           
         dia_formatado = dia.strftime("%d/%m/%Y")
         print(
@@ -114,20 +119,26 @@ while a:
         if tecla == 'cima':
             opcao = (opcao - 1) % len(opções_do_menu)
             if opcao == -1:
-                opcao = 3
+                opcao = 4
                 continue
         elif tecla == 'baixo':
             opcao = (opcao + 1) % len(opções_do_menu)
-            if opcao == 4:
+            if opcao == 5:
                 opcao = 0
                 continue
         elif tecla == 'enter':
             limpar()
-            if "Criar nova tarefa" in opções_do_menu[opcao]:
-                    exec(open("criar_tarefas.py", encoding='utf-8').read())
+            if "Criar nova lista de tarefas" in opções_do_menu[opcao]:
+                while True:
+                    exec(open("criar_lista_de_tarefas.py", encoding='utf-8').read())
                     
+            elif "Criar nova tarefa" in opções_do_menu[opcao]:
+                exec(open("criar_tarefas.py", encoding='utf-8').read())
+            elif "Modificar tarefas" in opções_do_menu[opcao]:
+                exec(open("Modificar_tarefas.py",encoding='utf-8').read())
             elif "Visualizar tarefas" in opções_do_menu[opcao]:
-                    exec(open("Visualisar_tarefas.py",encoding='utf-8').read())
+                exec(open("Visualisar_tarefas.py",encoding='utf-8').read())
+            
                     
             elif "Sair" in opções_do_menu[opcao]:
                 input("\nPressione Enter para sair...")

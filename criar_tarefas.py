@@ -37,7 +37,10 @@ if __name__ == "__main__":
 
 
     def limpar_tela():
-        os.system('cls' if EH_WINDOWS else 'clear')  # Limpa o terminal no Unix/Linux/Mac. Para Windows, use os.system("cls")
+        """ Limpa o terminal após cada print
+            
+            """
+        os.system('cls' if EH_WINDOWS else 'clear')
 
     if EH_WINDOWS: #Caso o sistema operacional seja windows, usamos esse codigo para capturar a tecla
         import msvcrt
@@ -87,7 +90,10 @@ if __name__ == "__main__":
             return None
 
 
-    def desenhar_layout(titulo = "",tags = "",prioridade = "",repetição = "",data = ""):
+    def menu_criar(titulo = "",tags = "",prioridade = "",repetição = "",data = ""):
+        ''' Menu para criar novas tarefas
+        
+        '''
         print(NEGRITO+"="*42+RESET )
         print(WBLUE + f"{"Criar tarefa":^42}" + RESET)
         print(NEGRITO+"="*42+RESET )
@@ -111,7 +117,7 @@ if __name__ == "__main__":
     repetição = ""
     data = ""
 
-    desenhar_layout(titulo, tags, prioridade, repetição, data)
+    menu_criar(titulo, tags, prioridade, repetição, data)
 
     # Input Nome
     def escolher_titulo():
@@ -119,7 +125,7 @@ if __name__ == "__main__":
         limpar_tela()
         return titulo
     titulo = escolher_titulo()
-    desenhar_layout(titulo = titulo,tags = "",prioridade = "",repetição = "",data = "")
+    menu_criar(titulo = titulo,tags = "",prioridade = "",repetição = "",data = "")
 
     # Input tags
 
@@ -139,17 +145,17 @@ if __name__ == "__main__":
             tecla = tecla_apertada()
             if tecla == 'cima':
                 limpar_tela()
-                desenhar_layout(titulo = titulo,tags = "",prioridade = "",repetição = "",data = "")
+                menu_criar(titulo = titulo,tags = "",prioridade = "",repetição = "",data = "")
                 opcao_tags = (opcao_tags - 1) % len(tags)
             elif tecla == 'baixo':
                 limpar_tela()
-                desenhar_layout(titulo = titulo,tags = "",prioridade = "",repetição = "",data = "")
+                menu_criar(titulo = titulo,tags = "",prioridade = "",repetição = "",data = "")
                 opcao_tags = (opcao_tags + 1) % len(tags)
             elif tecla == 'enter':
                 tags = "Indisponivel"
                 limpar_tela()
                 break      
-    desenhar_layout(titulo, tags, prioridade, repetição, data)
+    menu_criar(titulo, tags, prioridade, repetição, data)
 
 
     # Input prioridade
@@ -171,16 +177,16 @@ if __name__ == "__main__":
             if tecla == 'cima':
                 limpar_tela()
                 opcao_prioridades = (opcao_prioridades - 1) % len(prioridades)
-                desenhar_layout(titulo = titulo,tags = tags,prioridade = "",repetição = "",data = "")
+                menu_criar(titulo = titulo,tags = tags,prioridade = "",repetição = "",data = "")
             elif tecla == 'baixo':
                 limpar_tela()
                 opcao_prioridades = (opcao_prioridades + 1) % len(prioridades)
-                desenhar_layout(titulo = titulo,tags = tags,prioridade = "",repetição = "",data = "")
+                menu_criar(titulo = titulo,tags = tags,prioridade = "",repetição = "",data = "")
             elif tecla == 'enter':
                 prioridade = prioridades[opcao_prioridades]
                 limpar_tela()
                 break
-    desenhar_layout(titulo, tags, prioridade, repetição, data)
+    menu_criar(titulo, tags, prioridade, repetição, data)
 
 
     # Input repeticao
@@ -201,23 +207,23 @@ if __name__ == "__main__":
             if tecla == 'cima':
                 limpar_tela()
                 opcao_repeticao = (opcao_repeticao - 1) % len(repeticao)
-                desenhar_layout(titulo = titulo,tags = tags,prioridade = prioridade,repetição = "",data = "")
+                menu_criar(titulo = titulo,tags = tags,prioridade = prioridade,repetição = "",data = "")
             elif tecla == 'baixo':
                 limpar_tela()
                 opcao_repeticao = (opcao_repeticao + 1) % len(repeticao)
-                desenhar_layout(titulo = titulo,tags = tags,prioridade = prioridade,repetição = "",data = "")
+                menu_criar(titulo = titulo,tags = tags,prioridade = prioridade,repetição = "",data = "")
             elif tecla == 'enter':
                 repetição = repeticao[opcao_repeticao]
                 limpar_tela()
                 break
-    desenhar_layout(titulo, tags, prioridade, repetição, data)
+    menu_criar(titulo, tags, prioridade, repetição, data)
 
     def escolher_data():
         data= input("data: ")
         limpar_tela()
         return data
     data = escolher_data()
-    desenhar_layout(titulo, tags, prioridade, repetição, data)
+    menu_criar(titulo, tags, prioridade, repetição, data)
     
     nova_tarefa = Tarefa(titulo = titulo, tags = tags, prioridade = prioridade, repetição = repetição, data = data)
     
@@ -233,8 +239,10 @@ if __name__ == "__main__":
     lista_geral.append(lista_repeticao)
     lista_geral.append(lista_data)
     
-    with open("dados.txt", "a") as escrever:
-        escrever.write(f"-    {titulo:20} | {tags:20} | {prioridade:20} | {data:20} | {"Não concluida":20} " "\n")
+    with open("dados_tarefas.txt", "a") as escrever:
+        escrever.write(f"-  {titulo:20} | {tags:20} | {prioridade:20} | {data:20} | {"Não concluida":20} " "\n")
+    with open("Nomes_tarefas.txt", "a") as escrever:
+        escrever.write(f"{titulo}" "\n")
             
             
             
