@@ -1,5 +1,7 @@
 import os
 import sys
+import re
+from datetime import datetime
 from Tarefa import Tarefa
 
 lista_titulos = []
@@ -127,6 +129,39 @@ if __name__ == "__main__":
     titulo = escolher_titulo()
     menu_criar(titulo = titulo,tags = "",prioridade = "",repetição = "",data = "")
 
+    
+    
+    id_file = 'ultima_tarefa_id.txt'
+
+    def carregar_ultimo_id():
+        '''Carrega o id da ultima tarefa'''
+        if os.path.exists(id_file):
+            with open(id_file, 'r') as f:
+                try:
+                    return int(f.read().strip())
+                
+                # se o arquivo estiver vazio começa do 0
+                except ValueError:
+                    return 0
+    
+    def salvar_ultimo_id(novo_id):
+        '''Salva o ID númerico atual no arquivo'''
+        with open(id_file, 'w') as f:
+            f.write(str(novo_id))
+
+    def gerar_proximo_id():
+        '''
+        Gera o próximo id sequencial como um inteiro
+        '''
+        ultimo_id = carregar_ultimo_id()
+        novo_id = ultimo_id + 1
+        salvar_ultimo_id(novo_id)
+        return novo_id
+    
+    id = gerar_proximo_id()
+
+
+
     # Input tags
 
     tags = ["Nenhuma tag disponivel"]
@@ -218,14 +253,34 @@ if __name__ == "__main__":
                 break
     menu_criar(titulo, tags, prioridade, repetição, data)
 
+   
     def escolher_data():
-        data= input("data: ")
-        limpar_tela()
-        return data
+        '''
+        Solicita uma data para o usuário no formato dd/mm/aaaa
+        Continua pedindo até que seja inserida no formato válido
+        '''
+        while True:
+            data = input('data (dd/mm/aaaa): ')
+            limpar_tela()
+            
+            #Verifica o formato dd/mm/aaaa
+            if re.match(r'^\d{2}\/\d{2}\/\d{4}$', data):
+                
+                # Verifica se a data é real
+                try:
+                    datetime.strptime(data, '%d/%m/%Y')
+
+                    return data
+                except ValueError:
+                    print('Data inválida. Por favor, insira uma data real no formato dd/mm/aaaa.')
+            else:
+                print('Formato Inválido. Por favor, insira a data no formato dd/mm/aaaa.')
+                print('Exemplo: 01/01/2025')
+
     data = escolher_data()
     menu_criar(titulo, tags, prioridade, repetição, data)
     
-    nova_tarefa = Tarefa(titulo = titulo, tags = tags, prioridade = prioridade, repetição = repetição, data = data)
+    nova_tarefa = Tarefa(titulo = titulo, id=id, tags = tags, prioridade = prioridade, repetição = repetição, data = data)
     
     lista_titulos.append(nova_tarefa.titulo)
     lista_tags.append(nova_tarefa.tags)
@@ -242,4 +297,17 @@ if __name__ == "__main__":
     with open("dados_tarefas.txt", "a") as escrever:
         escrever.write(f"-  {titulo:20} | {tags:20} | {prioridade:20} | {data:20} | {"Não concluida":20} " "\n")
     with open("Nomes_tarefas.txt", "a") as escrever:
-        escrever.write(f"{titulo}" "\n")
+        escrever.write(f"{titulo} - {id}" "\n")
+            
+            
+            
+            
+
+
+
+
+    
+    
+
+
+        
