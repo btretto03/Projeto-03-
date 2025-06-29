@@ -294,9 +294,9 @@ if __name__ == "__main__":
     lista_geral.append(lista_repeticao)
     lista_geral.append(lista_data)
     
-    with open("dados_tarefas.txt", "a") as escrever:
+    with open("dados_tarefas.txt", "a", encoding = 'utf-8') as escrever:
         escrever.write(f"-  {titulo:20} | {tags:20} | {prioridade:20} | {data:20} | {"Não concluida":20} " "\n")
-    with open("Nomes_tarefas.txt", "a") as escrever:
+    with open("Nomes_tarefas.txt", "a", encoding = 'utf-8') as escrever:
         escrever.write(f"{titulo} - {id}" "\n")
             
             
