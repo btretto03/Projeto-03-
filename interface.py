@@ -145,6 +145,3 @@ while a:
                 if tecla == 'enter':
                     a = False
                     break
-
-
-

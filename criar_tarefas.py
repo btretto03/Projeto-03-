@@ -243,16 +243,3 @@ if __name__ == "__main__":
         escrever.write(f"-  {titulo:20} | {tags:20} | {prioridade:20} | {data:20} | {"Não concluida":20} " "\n")
     with open("Nomes_tarefas.txt", "a") as escrever:
         escrever.write(f"{titulo}" "\n")
-            
-            
-            
-            
-
-
-
-
-    
-    
-
-
-        

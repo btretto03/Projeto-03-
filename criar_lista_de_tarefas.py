@@ -131,16 +131,3 @@ while True:
             tarefas_disponiveis[opcao_tarefas]
             limpar()
             break
-
-  
-  
-    
-        
-
-
-
-
-
-
-
-

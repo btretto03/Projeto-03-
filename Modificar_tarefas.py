@@ -47,7 +47,7 @@ if __name__ == "__main__":
         if len(nova_lista) == 0:
             print("Nenhuma tarefa adicionada")
             sair = input("Pressione qualquer tecla para sair \n")
-            break
+            return "s"
         else:
             print(NEGRITO+"="*114+RESET )
             print(f"{"        Tarefas":25} | {"       Tag":20} | {"    Prioridade":20} | {"     Data":20} | {"     Concluida"} ")
@@ -58,7 +58,7 @@ if __name__ == "__main__":
                 print(f"     {"":20} | {"":20} | {"":20} | {"":20} | {"":20} ")
                 print(NEGRITO+"-"*114+RESET )
             modificar = input("Digite o numero da tarefa que deseja modificar. Para sair digite s\n")
-            
+
             return modificar
 
 
@@ -116,23 +116,33 @@ if __name__ == "__main__":
       break
     else:
       def menu_criar(titulo = "",tags = "",prioridade = "",repetição = "",data = ""):
-          ''' Menu para criar novas tarefas
+        ''' Menu para criar novas tarefas
           
           '''
-          print(NEGRITO+"="*42+RESET )
-          print(WBLUE + f"{"Criar tarefa":^42}" + RESET)
-          print(NEGRITO+"="*42+RESET )
-          print(f"| Título:{titulo:32}|")
-          print("-"*42)
-          print(f"| Tags: {tags:33}|")
-          print("-"*42)
-          print(f"| Prioridade: {prioridade:27}|")
-          print("-"*42)
-          print(f"| Repetição: {repetição:28}|")
-          print("-"*42)
-          print(f"| Data: {data:33}|")
-          print(NEGRITO+ ("-"*42) + RESET)
-          print()
+        limpar()
+        nova_lista = [] 
+        with open("dados_tarefas.txt", "r") as dados: #Visualizar as tarefas no arquivo e adiciona-las a uma lista
+            for lista in dados:
+                nova_lista.append(lista.strip())
+        print(NEGRITO+"="*114+RESET )
+        print(f"{"        Tarefas":25} | {"       Tag":20} | {"    Prioridade":20} | {"     Data":20} | {"     Concluida"} ")
+        print(NEGRITO+"-"*114+RESET )
+        print(f"     {"":20} | {"":20} | {"":20} | {"":20} | {"":20} ")
+        print(int(modificar)-1, nova_lista[int(modificar)-1])
+        print(NEGRITO+"="*42+RESET )
+        print(WBLUE + f"{"Criar tarefa":^42}" + RESET)
+        print(NEGRITO+"="*42+RESET )
+        print(f"| Título:{titulo:32}|")
+        print("-"*42)
+        print(f"| Tags: {tags:33}|")
+        print("-"*42)
+        print(f"| Prioridade: {prioridade:27}|")
+        print("-"*42)
+        print(f"| Repetição: {repetição:28}|")
+        print("-"*42)
+        print(f"| Data: {data:33}|")
+        print(NEGRITO+ ("-"*42) + RESET)
+        print()
           
 
       # Inicial
@@ -264,12 +274,4 @@ if __name__ == "__main__":
             arquivo.writelines(linhas)   
       except:
         print("Nenhuma tarefa com esse numero")  
-
-              
-              
-
-
-
-
-
-
+    limpar()

@@ -57,5 +57,3 @@ def desenhar_layout():
             sair = input("Aperte qualquer tecla para sair\n")
             break
 desenhar_layout()
-
-
