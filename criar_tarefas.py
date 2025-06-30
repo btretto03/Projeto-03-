@@ -1,53 +1,27 @@
 import os
 import sys
 import re
-import textwrap
+import padrao
 from datetime import datetime
 from Tarefa import Tarefa
 
+lista_titulos = []
+lista_tags = []
+lista_prioridades = []
+lista_repeticao = []
+lista_data = []
+lista_geral = []
 
 
 if __name__ == "__main__":
-
-    EH_WINDOWS = os.name == 'nt'
-    #Cores de texto
-    RED = "\033[3;0;41m"
-    GREEN = "\033[0;32m"
-    YELLOW = "\033[0;33m"
-    BLUE = "\033[0;34m"
-    WHITE = "\033[0;37m"
-    NEGRITO = "\033[1m"
-    RESET = "\033[0m"
-
-    #Cores de fundo
-    WRED = "\033[0;41m"
-    WGREEN = "\033[0;42m"
-    WYELLOW = "\033[0;43m"
-    WBLUE = "\033[1;44m"
-    WNEGRITO = "\033[0m"
-    WRESET = "\033[1m"
-    WWHITE = "\033[0;47m"
-    SUBLINHADO = "\033[3;30;47m"
-    SUBLINHADO_VERMELHO = "\033[3;30;47m"
-    FRACO =  "\033[0;30m"
-
-
-
-    def limpar_tela():
-        """ Limpa o terminal após cada print
-            
-            """
-        os.system('cls' if EH_WINDOWS else 'clear')
-
-
 
     def menu_criar(titulo = "", descricao = '', tags = "",prioridade = "",repetição = "",data = ""):
         ''' Menu para criar novas tarefas
         
         '''
-        print(NEGRITO+"="*42+RESET )
-        print(WBLUE + f"{"Criar tarefa":^42}" + RESET)
-        print(NEGRITO+"="*42+RESET )
+        print(padrao.NEGRITO+"="*42+padrao.RESET )
+        print(padrao.WBLUE + f"{"Criar tarefa":^42}" + padrao.RESET)
+        print(padrao.NEGRITO+"="*42+padrao.RESET )
         print(f"| Título:{titulo:32}|")
         print("-"*42)
         print(f"| Descrição:{descricao:29}|")    
@@ -59,7 +33,7 @@ if __name__ == "__main__":
         print(f"| Repetição: {repetição:28}|")
         print("-"*42)
         print(f"| Data: {data:33}|")
-        print(NEGRITO+ ("-"*42) + RESET)
+        print(padrao.NEGRITO+ ("-"*42) + padrao.RESET)
         print()
         
 
@@ -70,17 +44,19 @@ if __name__ == "__main__":
     prioridade = ""
     repetição = ""
     data = ""
+    
 
-    menu_criar(titulo, descricao, tags, prioridade, repetição, data)
+    menu_criar(titulo, descricao , tags, prioridade, repetição, data)
 
     # Input Nome
     def escolher_titulo():
         titulo = input("Titulo: ")
-        limpar_tela()
+        padrao.limpar()
         return titulo
     titulo = escolher_titulo()
     menu_criar(titulo = titulo, descricao = '' ,tags = "",prioridade = "",repetição = "",data = "")
 
+    
     
     id_file = 'ultima_tarefa_id.txt'
 
@@ -110,48 +86,113 @@ if __name__ == "__main__":
         return novo_id
     
     id = gerar_proximo_id()
-    
+
     def criar_descricao():
         '''Possibilita ao usuario dar uma descrição para sua tarefa'''
         descricao = input('Descrição: ')
 
+
         while len(descricao) > 38:
             print('Sua descrição é muito grande, favor alterar')
             descricao = input('Descrição: ')
-        limpar_tela()
+        padrao.limpar()
         return descricao  
     
     descricao = criar_descricao()
-    menu_criar(titulo = titulo, descricao = descricao ,tags = "",prioridade = "",repetição = "",data = "") 
-
-
-    # Input tags
-    def escolher_tag(): 
-        tags = input("Escolha a tag:")
-        limpar_tela()
-        return tags
-    tags = escolher_tag()
-    menu_criar(titulo = titulo, descricao = descricao ,tags = tags,prioridade = "",repetição = "",data = "")
+    menu_criar(titulo = titulo, descricao = descricao ,tags = "",prioridade = "",repetição = "",data = "")  
 
     
-    # Input prioridade 
+    
+    # Input tags
+
+    tags = ["Nenhuma tag disponivel"]
+    opcao_tags = 0
+    def escolher_tag(): 
+        print("Escolha a tag:")
+        global opcao_tags  
+        for i, item in enumerate(tags):
+            if i == opcao_tags :
+                print( " "* 2 + padrao.SUBLINHADO + " "* 1 + f"  {item}     " + padrao.RESET)
+            else:
+                print(f"    {item}" )
+        
+    while True:  
+            escolher_tag()
+            tecla = padrao.tecla_apertada()
+            if tecla == 'cima':
+                padrao.limpar()
+                menu_criar(titulo = titulo,tags = "",prioridade = "",repetição = "",data = "")
+                opcao_tags = (opcao_tags - 1) % len(tags)
+            elif tecla == 'baixo':
+                padrao.limpar()
+                menu_criar(titulo = titulo,tags = "",prioridade = "",repetição = "",data = "")
+                opcao_tags = (opcao_tags + 1) % len(tags)
+            elif tecla == 'enter':
+                tags = "Indisponivel"
+                padrao.limpar()
+                break      
+    menu_criar(titulo, descricao, tags, prioridade, repetição, data)
+
+
+    # Input prioridade
+    prioridades = ["Baixa", "Media", "Alta"]
+    opcao_prioridades = 0
     def escolher_prioridades(): 
-        prioridades = input("Defina a prioridade:")
-        limpar_tela()
-        return prioridades
-    prioridades = escolher_prioridades()
-    menu_criar(titulo = titulo, descricao = descricao ,tags = tags,prioridade = prioridades,repetição = "",data = "")
+        print("Defina a prioridade:")
+        global opcao_prioridades  
+        for i, item in enumerate(prioridades):
+            if i == opcao_prioridades :
+                print( " "* 2 + padrao.SUBLINHADO + " "* 1 + f"  {item}     " + padrao.RESET)
+            else:
+
+                print(f"    {item}" )
+
+    while True:
+            escolher_prioridades()
+            tecla = padrao.tecla_apertada()
+            if tecla == 'cima':
+                padrao.limpar()
+                opcao_prioridades = (opcao_prioridades - 1) % len(prioridades)
+                menu_criar(titulo = titulo,tags = tags,prioridade = "",repetição = "",data = "")
+            elif tecla == 'baixo':
+                padrao.limpar()
+                opcao_prioridades = (opcao_prioridades + 1) % len(prioridades)
+                menu_criar(titulo = titulo,tags = tags,prioridade = "",repetição = "",data = "")
+            elif tecla == 'enter':
+                prioridade = prioridades[opcao_prioridades]
+                padrao.limpar()
+                break
+    menu_criar(titulo, descricao, tags, prioridade, repetição, data)
 
 
     # Input repeticao
+    repeticao = ["Nenhuma","Diária", "Semanal","Mensal","Anual"]
+    opcao_repeticao = 0
     def escolher_repeticao(): 
-        print(f"{1} Semanal \n {2} Baixa")
-        repetição = int(input("Escolha a frêquencia:"))
-        limpar_tela() 
-        return repetição
+        print("Escolha a frêquencia:")
+        global opcao_repeticao  
+        for i, item in enumerate(repeticao):
+            if i == opcao_repeticao :
+                print( " "* 2 + padrao.SUBLINHADO + " "* 1 + f"  {item}     " + padrao.RESET)
+            else:
+                print(f"    {item}" )
 
-    repetição = escolher_repeticao()
-    menu_criar(titulo = titulo, descricao = descricao ,tags = tags,prioridade = prioridades,repetição = repetição,data = "")
+    while True:
+            escolher_repeticao()
+            tecla = padrao.tecla_apertada()
+            if tecla == 'cima':
+                padrao.limpar()
+                opcao_repeticao = (opcao_repeticao - 1) % len(repeticao)
+                menu_criar(titulo = titulo,tags = tags,prioridade = prioridade,repetição = "",data = "")
+            elif tecla == 'baixo':
+                padrao.limpar()
+                opcao_repeticao = (opcao_repeticao + 1) % len(repeticao)
+                menu_criar(titulo = titulo,tags = tags,prioridade = prioridade,repetição = "",data = "")
+            elif tecla == 'enter':
+                repetição = repeticao[opcao_repeticao]
+                padrao.limpar()
+                break
+    menu_criar(titulo, descricao, tags, prioridade, repetição, data)
 
    
     def escolher_data():
@@ -161,7 +202,13 @@ if __name__ == "__main__":
         '''
         while True:
             data = input('data (dd/mm/aaaa): ')
-            limpar_tela()
+            padrao.limpar()
+
+
+             # permite a entrada vazia
+            if not data.strip():
+                return ''
+
             
             #Verifica o formato dd/mm/aaaa
             if re.match(r'^\d{2}\/\d{2}\/\d{4}$', data):
@@ -178,8 +225,21 @@ if __name__ == "__main__":
                 print('Exemplo: 01/01/2025')
 
     data = escolher_data()
-    menu_criar(titulo = titulo, descricao = descricao ,tags = tags,prioridade = prioridades,repetição = repetição,data = data)
+    menu_criar(titulo, descricao, tags, prioridade, repetição, data)
     
+    nova_tarefa = Tarefa(titulo = titulo, id=id,descricao = descricao, tags = tags, prioridade = prioridade, repetição = repetição, data = data)
+    
+    lista_titulos.append(nova_tarefa.titulo)
+    lista_tags.append(nova_tarefa.tags)
+    lista_prioridades.append(nova_tarefa.prioridade)
+    lista_repeticao.append(nova_tarefa.repetição)
+    lista_data.append(nova_tarefa.data)
+    
+    lista_geral.append(lista_titulos)
+    lista_geral.append(lista_tags)
+    lista_geral.append(lista_prioridades)
+    lista_geral.append(lista_repeticao)
+    lista_geral.append(lista_data)
     
     with open("dados_tarefas.txt", "a", encoding = 'utf-8') as escrever:
         escrever.write(f"-  {titulo:20} | {tags:20} | {prioridade:20} | {data:20} | {"Não concluida":20} " "\n")
