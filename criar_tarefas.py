@@ -102,10 +102,13 @@ if __name__ == "__main__":
     menu_criar(titulo = titulo, descricao = descricao ,tags = "",prioridade = "",repetição = "",data = "")  
 
     
-    
     # Input tags
 
-    tags = ["Nenhuma tag disponivel"]
+    tags = []
+    with open("dados_tag.txt", "r") as dados: #Visualizar as tarefas no arquivo e adiciona-las a uma lista
+        for lista in dados:
+            tags.append(lista.strip())
+
     opcao_tags = 0
     def escolher_tag(): 
         print("Escolha a tag:")
@@ -128,7 +131,7 @@ if __name__ == "__main__":
                 menu_criar(titulo = titulo,tags = "",prioridade = "",repetição = "",data = "")
                 opcao_tags = (opcao_tags + 1) % len(tags)
             elif tecla == 'enter':
-                tags = "Indisponivel"
+                tags = tags[opcao_tags]
                 padrao.limpar()
                 break      
     menu_criar(titulo, descricao, tags, prioridade, repetição, data)
@@ -246,15 +249,3 @@ if __name__ == "__main__":
     with open("Nomes_tarefas.txt", "a", encoding = 'utf-8') as escrever:
         escrever.write(f"{titulo} - {id}" "\n")
             
-            
-            
-            
-
-
-
-
-    
-    
-
-
-        

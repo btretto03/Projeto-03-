@@ -30,7 +30,7 @@ FRACO =  "\033[0;30m"
 a = True
     
 while a:
-    opcoes_do_menu = ["Criar nova lista de tarefas", "Criar nova tarefa","Criar nova Tag", "Modificar tarefas", "Visualizar tarefas", "Sair"]
+    opcoes_do_menu = ["Lista de tarefas", "Criar nova tarefa","Criar nova Tag", "Modificar tarefas", "Visualizar tarefas", "Sair"]
     opcao = 0
 
     if EH_WINDOWS: #Caso o sistema operacional seja windows, usamos esse codigo para capturar a tecla
@@ -128,8 +128,7 @@ while a:
                 continue
         elif tecla == 'enter':
             limpar()
-            if "Criar nova lista de tarefas" in opcoes_do_menu[opcao]:
-                while True:
+            if "Lista de tarefas" in opcoes_do_menu[opcao]:
                     exec(open("criar_lista_de_tarefas.py", encoding='utf-8').read())
                     
             elif "Criar nova tarefa" in opcoes_do_menu[opcao]:
