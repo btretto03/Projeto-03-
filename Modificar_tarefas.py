@@ -159,16 +159,16 @@ while sim:
 
             if atributo_a_modificar == "Título":
                 novo_titulo = tarefa_para_modificar.escolher_titulo()
-                partes_tarefa[0] = f' {novo_titulo:<23} '
+                partes_tarefa[0] = f' {novo_titulo:20} '
             elif atributo_a_modificar == "Tag":
                 nova_tag = tarefa_para_modificar.escolher_tag()
-                partes_tarefa[1] = f' {nova_tag:<18} '
+                partes_tarefa[1] = f' {nova_tag:20} '
             elif atributo_a_modificar == "Prioridade":
                 nova_prioridade = tarefa_para_modificar.escolher_prioridades()
-                partes_tarefa[2] = f' {nova_prioridade:<18} '
+                partes_tarefa[2] = f' {nova_prioridade:20} '
             elif atributo_a_modificar == "Data":
                 nova_data = tarefa_para_modificar.escolher_data()
-                partes_tarefa[3] = f' {nova_data:<18} '
+                partes_tarefa[3] = f' {nova_data:20} '
             
             linhas_originais[indice_real_no_arquivo] = '|'.join(partes_tarefa)
 
