@@ -25,7 +25,7 @@ def encontrar_tarefa():
                     lista.append(linha)
                     pd.limpar()
                     interface()
-                    break 
+                break 
                    
             else:
               pd.limpar()
