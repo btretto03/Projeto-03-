@@ -4,7 +4,7 @@ import datetime as dt
 import padrao
 
 
-EH_WINDOWS = os.name == 'nt'
+a = True
 
     
 while a:
