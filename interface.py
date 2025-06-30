@@ -30,7 +30,7 @@ FRACO =  "\033[0;30m"
 a = True
     
 while a:
-    opcoes_do_menu = ["Criar nova lista de tarefas", "Criar nova tarefa", "Modificar tarefas", "Visualizar tarefas", "Sair"]
+    opcoes_do_menu = ["Criar nova lista de tarefas", "Criar nova tarefa","Criar nova Tag", "Modificar tarefas", "Visualizar tarefas", "Sair"]
     opcao = 0
 
     if EH_WINDOWS: #Caso o sistema operacional seja windows, usamos esse codigo para capturar a tecla
@@ -77,7 +77,7 @@ while a:
             return None
 
     def limpar():
-        """ Limpa o terminal após cada print
+        """ Limpa o terminal apÃ³s cada print
             
             """
         os.system('cls' if EH_WINDOWS else 'clear')
@@ -119,11 +119,11 @@ while a:
         if tecla == 'cima':
             opcao = (opcao - 1) % len(opcoes_do_menu)
             if opcao == -1:
-                opcao = 4
+                opcao = 5
                 continue
         elif tecla == 'baixo':
             opcao = (opcao + 1) % len(opcoes_do_menu)
-            if opcao == 5:
+            if opcao == 6:
                 opcao = 0
                 continue
         elif tecla == 'enter':
@@ -138,6 +138,8 @@ while a:
                 exec(open("Modificar_tarefas.py",encoding='utf-8').read())
             elif "Visualizar tarefas" in opcoes_do_menu[opcao]:
                 exec(open("Visualisar_tarefas.py",encoding='utf-8').read())
+            elif "Criar nova Tag" in opcoes_do_menu[opcao]:
+                exec(open("Criar_nova_Tag.py",encoding='utf-8').read())
             
                     
             elif "Sair" in opcoes_do_menu[opcao]:
