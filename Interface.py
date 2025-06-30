@@ -4,16 +4,14 @@ import datetime as dt
 import padrao
 
 
+EH_WINDOWS = os.name == 'nt'
 
-
-a = True
     
 while a:
-    opções_do_menu = ["Criar nova lista de tarefas", "Criar nova tarefa", "Modificar tarefas", "Visualizar tarefas", "Sair"]
+    opcoes_do_menu = ["Criar nova lista de tarefas", "Criar nova tarefa","Criar nova Tag", "Modificar tarefas", "Visualizar tarefas", "Sair"]
     opcao = 0
 
-    padrao.limpar()
-
+    
     
     def mostrar_menu():
         '''Interface principal
@@ -33,7 +31,7 @@ while a:
             + padrao.WNEGRITO
             + padrao.RESET 
     )
-        for i, item in enumerate(opções_do_menu):
+        for i, item in enumerate(opcoes_do_menu):
             if i == opcao and opcao != 3:
                 print( " "* 2 + padrao.SUBLINHADO + " "* 3 + f"  {item}     " + padrao.RESET)
             elif i == opcao and opcao == 3:
@@ -49,34 +47,33 @@ while a:
         mostrar_menu()
         tecla = padrao.tecla_apertada()
         if tecla == 'cima':
-            opcao = (opcao - 1) % len(opções_do_menu)
+            opcao = (opcao - 1) % len(opcoes_do_menu)
             if opcao == -1:
-                opcao = 4
+                opcao = 5
                 continue
         elif tecla == 'baixo':
-            opcao = (opcao + 1) % len(opções_do_menu)
-            if opcao == 5:
+            opcao = (opcao + 1) % len(opcoes_do_menu)
+            if opcao == 6:
                 opcao = 0
                 continue
         elif tecla == 'enter':
             padrao.limpar()
-            if "Criar nova lista de tarefas" in opções_do_menu[opcao]:
+            if "Criar nova lista de tarefas" in opcoes_do_menu[opcao]:
                 while True:
                     exec(open("criar_lista_de_tarefas.py", encoding='utf-8').read())
                     
-            elif "Criar nova tarefa" in opções_do_menu[opcao]:
+            elif "Criar nova tarefa" in opcoes_do_menu[opcao]:
                 exec(open("criar_tarefas.py", encoding='utf-8').read())
-            elif "Modificar tarefas" in opções_do_menu[opcao]:
+            elif "Modificar tarefas" in opcoes_do_menu[opcao]:
                 exec(open("Modificar_tarefas.py",encoding='utf-8').read())
-            elif "Visualizar tarefas" in opções_do_menu[opcao]:
+            elif "Visualizar tarefas" in opcoes_do_menu[opcao]:
                 exec(open("Visualisar_tarefas.py",encoding='utf-8').read())
+            elif "Criar nova Tag" in opcoes_do_menu[opcao]:
+                exec(open("Criar_nova_Tag.py",encoding='utf-8').read())
             
                     
-            elif "Sair" in opções_do_menu[opcao]:
+            elif "Sair" in opcoes_do_menu[opcao]:
                 input("\nPressione Enter para sair...")
                 if tecla == 'enter':
                     a = False
                     break
-
-
-
