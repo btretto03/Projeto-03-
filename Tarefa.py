@@ -6,9 +6,10 @@ from dataclasses import dataclass
 class Tarefa():
     def __init__(self):
         self.titulo = str 
-        self.tags = str  
-        self.prioridade = str
-        self.repetição = str 
+        self.descricao = str
+        self.tags = int 
+        self.prioridade = int
+        self.repetição = int
         self.data = int 
         self.id = int 
     
@@ -28,9 +29,16 @@ class Tarefa():
         return self.descricao  
     
     def escolher_tag(self): 
-        self.tags = input("Escolha a tag: ")
+        lista_tags = ["Nenhuma tag"]
+        with open("dados_tag.txt", "r") as dados: #Visualizar as tarefas no arquivo e adiciona-las a uma lista
+            for lista in dados:
+                lista_tags.append(lista.strip())
+        for i in range(len(lista_tags)):
+            print(f"{i + 1}. {lista_tags[i]}")
+        self.tags = int(input("Escolha a tag: "))
         self.limpar_tela()
-        return self.tags
+            
+        return lista_tags[self.tags-1]
     
     def escolher_prioridades(self): 
         prioridades = ["Baixa", "Media", "Alta"]
