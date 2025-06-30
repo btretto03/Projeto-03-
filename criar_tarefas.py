@@ -5,6 +5,12 @@ import textwrap
 from datetime import datetime
 from Tarefa import Tarefa
 
+lista_titulos = []
+lista_tags = []
+lista_prioridades = []
+lista_repeticao = []
+lista_data = []
+lista_geral = []
 
 
 if __name__ == "__main__":
@@ -163,6 +169,7 @@ if __name__ == "__main__":
     id = gerar_proximo_id()
 
 
+<<<<<<< HEAD
 
     # Input tags
     def escolher_tag(): 
@@ -190,9 +197,43 @@ if __name__ == "__main__":
                 limpar_tela()
                 break      
     menu_criar(titulo, tags, prioridade, repetição, data)
+=======
+>>>>>>> parent of fc2e021 (novo criar tarefas)
 
-    
-    # Input prioridade 
+    # Input tags
+
+    tags = ["Nenhuma tag disponivel"]
+    opcao_tags = 0
+    def escolher_tag(): 
+        print("Escolha a tag:")
+        global opcao_tags  
+        for i, item in enumerate(tags):
+            if i == opcao_tags :
+                print( " "* 2 + SUBLINHADO + " "* 1 + f"  {item}     " + RESET)
+            else:
+                print(f"    {item}" )
+        
+    while True:  
+            escolher_tag()
+            tecla = tecla_apertada()
+            if tecla == 'cima':
+                limpar_tela()
+                menu_criar(titulo = titulo,tags = "",prioridade = "",repetição = "",data = "")
+                opcao_tags = (opcao_tags - 1) % len(tags)
+            elif tecla == 'baixo':
+                limpar_tela()
+                menu_criar(titulo = titulo,tags = "",prioridade = "",repetição = "",data = "")
+                opcao_tags = (opcao_tags + 1) % len(tags)
+            elif tecla == 'enter':
+                tags = "Indisponivel"
+                limpar_tela()
+                break      
+    menu_criar(titulo, tags, prioridade, repetição, data)
+
+
+    # Input prioridade
+    prioridades = ["Baixa", "Media", "Alta"]
+    opcao_prioridades = 0
     def escolher_prioridades(): 
         print("Defina a prioridade:")
         global opcao_prioridades  
@@ -222,6 +263,8 @@ if __name__ == "__main__":
 
 
     # Input repeticao
+    repeticao = ["Nenhuma","Diária", "Semanal","Mensal","Anual"]
+    opcao_repeticao = 0
     def escolher_repeticao(): 
         print("Escolha a frêquencia:")
         global opcao_repeticao  
@@ -280,9 +323,25 @@ if __name__ == "__main__":
 
     data = escolher_data()
     menu_criar(titulo, tags, prioridade, repetição, data)
+<<<<<<< HEAD
+    
+    nova_tarefa = Tarefa(titulo = titulo, id=id, tags = tags, prioridade = prioridade, repetição = repetição, data = data)
+=======
+>>>>>>> parent of fc2e021 (novo criar tarefas)
     
     nova_tarefa = Tarefa(titulo = titulo, id=id, tags = tags, prioridade = prioridade, repetição = repetição, data = data)
     
+    lista_titulos.append(nova_tarefa.titulo)
+    lista_tags.append(nova_tarefa.tags)
+    lista_prioridades.append(nova_tarefa.prioridade)
+    lista_repeticao.append(nova_tarefa.repetição)
+    lista_data.append(nova_tarefa.data)
+    
+    lista_geral.append(lista_titulos)
+    lista_geral.append(lista_tags)
+    lista_geral.append(lista_prioridades)
+    lista_geral.append(lista_repeticao)
+    lista_geral.append(lista_data)
     
     with open("dados_tarefas.txt", "a", encoding = 'utf-8') as escrever:
         escrever.write(f"-  {titulo:20} | {tags:20} | {prioridade:20} | {data:20} | {"Não concluida":20} " "\n")
