@@ -1,6 +1,7 @@
 import os
 import sys
 import re
+import textwrap
 from datetime import datetime
 from Tarefa import Tarefa
 
@@ -90,9 +91,12 @@ if __name__ == "__main__":
             finally:
                 termios.tcsetattr(fd, termios.TCSADRAIN, old)
             return None
+  
+
+   
 
 
-    def menu_criar(titulo = "",tags = "",prioridade = "",repetição = "",data = ""):
+    def menu_criar(titulo = "", descricao = '', tags = "",prioridade = "",repetição = "",data = ""):
         ''' Menu para criar novas tarefas
         
         '''
@@ -100,6 +104,8 @@ if __name__ == "__main__":
         print(WBLUE + f"{"Criar tarefa":^42}" + RESET)
         print(NEGRITO+"="*42+RESET )
         print(f"| Título:{titulo:32}|")
+        print("-"*42)
+        print(f"| Descrição:{descricao:29}|")    
         print("-"*42)
         print(f"| Tags: {tags:33}|")
         print("-"*42)
@@ -114,12 +120,14 @@ if __name__ == "__main__":
 
     # Inicial
     titulo = ""
+    descricao = ''
     tags = ""
     prioridade = ""
     repetição = ""
     data = ""
+    
 
-    menu_criar(titulo, tags, prioridade, repetição, data)
+    menu_criar(titulo, descricao , tags, prioridade, repetição, data)
 
     # Input Nome
     def escolher_titulo():
@@ -127,7 +135,7 @@ if __name__ == "__main__":
         limpar_tela()
         return titulo
     titulo = escolher_titulo()
-    menu_criar(titulo = titulo,tags = "",prioridade = "",repetição = "",data = "")
+    menu_criar(titulo = titulo, descricao = '' ,tags = "",prioridade = "",repetição = "",data = "")
 
     
     
@@ -160,8 +168,22 @@ if __name__ == "__main__":
     
     id = gerar_proximo_id()
 
+    def criar_descricao():
+        '''Possibilita ao usuario dar uma descrição para sua tarefa'''
+        descricao = input('Descrição: ')
 
 
+        while len(descricao) > 38:
+            print('Sua descrição é muito grande, favor alterar')
+            descricao = input('Descrição: ')
+        limpar_tela()
+        return descricao  
+    
+    descricao = criar_descricao()
+    menu_criar(titulo = titulo, descricao = descricao ,tags = "",prioridade = "",repetição = "",data = "")  
+
+    
+    
     # Input tags
 
     tags = ["Nenhuma tag disponivel"]
@@ -190,7 +212,7 @@ if __name__ == "__main__":
                 tags = "Indisponivel"
                 limpar_tela()
                 break      
-    menu_criar(titulo, tags, prioridade, repetição, data)
+    menu_criar(titulo, descricao, tags, prioridade, repetição, data)
 
 
     # Input prioridade
@@ -221,7 +243,7 @@ if __name__ == "__main__":
                 prioridade = prioridades[opcao_prioridades]
                 limpar_tela()
                 break
-    menu_criar(titulo, tags, prioridade, repetição, data)
+    menu_criar(titulo,descricao, tags, prioridade, repetição, data)
 
 
     # Input repeticao
@@ -251,7 +273,7 @@ if __name__ == "__main__":
                 repetição = repeticao[opcao_repeticao]
                 limpar_tela()
                 break
-    menu_criar(titulo, tags, prioridade, repetição, data)
+    menu_criar(titulo, descricao, tags, prioridade, repetição, data)
 
    
     def escolher_data():
@@ -262,6 +284,12 @@ if __name__ == "__main__":
         while True:
             data = input('data (dd/mm/aaaa): ')
             limpar_tela()
+
+
+             # permite a entrada vazia
+            if not data.strip():
+                return ''
+
             
             #Verifica o formato dd/mm/aaaa
             if re.match(r'^\d{2}\/\d{2}\/\d{4}$', data):
@@ -278,9 +306,9 @@ if __name__ == "__main__":
                 print('Exemplo: 01/01/2025')
 
     data = escolher_data()
-    menu_criar(titulo, tags, prioridade, repetição, data)
+    menu_criar(titulo, descricao, tags, prioridade, repetição, data)
     
-    nova_tarefa = Tarefa(titulo = titulo, id=id, tags = tags, prioridade = prioridade, repetição = repetição, data = data)
+    nova_tarefa = Tarefa(titulo = titulo, id=id,descricao = descricao, tags = tags, prioridade = prioridade, repetição = repetição, data = data)
     
     lista_titulos.append(nova_tarefa.titulo)
     lista_tags.append(nova_tarefa.tags)
