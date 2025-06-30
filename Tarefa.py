@@ -42,19 +42,36 @@ class Tarefa():
     
     def escolher_prioridades(self): 
         prioridades = ["Baixa", "Media", "Alta"]
-        for i in range(len(prioridades)):
-            print(f"{i + 1}. {prioridades[i]}")
-        self.prioridade = int(input("Defina a prioridade: "))
-        self.limpar_tela()
-        return prioridades[self.prioridade - 1]
-    
+        
+        while True:
+            for i in range(len(prioridades)):
+                print(f"{i + 1}. {prioridades[i]}")
+            
+            try:
+                self.prioridade = int(input("Defina a prioridade: "))
+                resultado = prioridades[self.prioridade - 1]
+                
+                self.limpar_tela()
+                return resultado 
+            except (ValueError, IndexError):
+                self.limpar_tela()
+                print("Opção inválida. Por favor, digite um dos números mostrados.\n")
+
+
     def escolher_repeticao(self): 
         repeticao = ["Nenhuma","Diária", "Semanal","Mensal","Anual"]
-        for i in range(len(repeticao)):
-            print(f"{i + 1}. {repeticao[i]}")
-        self.repetição = int(input("Escolha a frêquencia: "))
-        self.limpar_tela() 
-        return repeticao[self.repetição - 1]
+        while True:
+            for i in range(len(repeticao)):
+                print(f"{i + 1}. {repeticao[i]}")
+            try: 
+                self.repetição = int(input("Escolha a frêquencia: "))
+                resultado = repeticao[self.repetição - 1]
+                self.limpar_tela() 
+                return resultado 
+
+            except (ValueError, IndexError):
+                self.limpar_tela()
+                print("Opção inválida. Por favor, digite um dos números mostrados.\n")
     
     def escolher_data(self):
         '''
