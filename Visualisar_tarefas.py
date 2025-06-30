@@ -33,7 +33,7 @@ def limpar():
 
   
 nova_lista = [] 
-with open("dados_tarefas.txt", "r") as dados: #Visualizar as tarefas no arquivo e adiciona-las a uma lista
+with open("dados_tarefas.txt", "r", encoding='utf-8') as dados: #Visualizar as tarefas no arquivo e adiciona-las a uma lista
     for lista in dados:
         nova_lista.append(lista.strip())
 
