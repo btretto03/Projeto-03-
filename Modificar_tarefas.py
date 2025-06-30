@@ -46,7 +46,29 @@ def menu_gerenciar_acao(tarefa_selecionada):
             opcao_atual = (opcao_atual + 1) % len(opcoes)
         elif tecla == 'enter':
             return opcoes[opcao_atual]
-               
+
+def menu_modificar_atributo(tarefa_selecionada):
+    padrao.limpar()
+    opcoes = ["Título","Tag", "Prioridade", "Data", "Cancelar"]
+    opcao_atual = 0
+    while True:
+        padrao.limpar()
+        print("Modificando a Tarefa:")
+        print(f"-> {tarefa_selecionada}\n")
+        print("Qual atributo você deseja modificar?")
+        for i, item in enumerate(opcoes):
+            if i == opcao_atual:
+                print("  " + padrao.SUBLINHADO + f"  {item}  " + padrao.RESET)
+            else:
+                print(f"    {item}")
+        tecla = padrao.tecla_apertada()
+        if tecla == 'cima':
+            opcao_atual = (opcao_atual - 1) % len(opcoes)
+        elif tecla == 'baixo':
+            opcao_atual = (opcao_atual + 1) % len(opcoes)
+        elif tecla == 'enter':
+            return opcoes[opcao_atual]
+
 def desenhar_layout(filtro):
     padrao.limpar()
     todas_as_tarefas = [] 
@@ -127,9 +149,28 @@ while sim:
             del linhas_originais[indice_real_no_arquivo]
 
         elif acao == "Modificar Tarefa":
-            print("\n Falta fazer aqui")
-            input("Pressione Enter para continuar...")
-            continue 
+            atributo_a_modificar = menu_modificar_atributo(tarefa_escolhida_str)
+
+            if atributo_a_modificar == "Cancelar":
+                continue
+
+            partes_tarefa = linhas_originais[indice_real_no_arquivo].split('|')
+            tarefa_para_modificar = Tarefa() 
+
+            if atributo_a_modificar == "Título":
+                novo_titulo = tarefa_para_modificar.escolher_titulo()
+                partes_tarefa[0] = f' {novo_titulo:<23} '
+            elif atributo_a_modificar == "Tag":
+                nova_tag = tarefa_para_modificar.escolher_tag()
+                partes_tarefa[1] = f' {nova_tag:<18} '
+            elif atributo_a_modificar == "Prioridade":
+                nova_prioridade = tarefa_para_modificar.escolher_prioridades()
+                partes_tarefa[2] = f' {nova_prioridade:<18} '
+            elif atributo_a_modificar == "Data":
+                nova_data = tarefa_para_modificar.escolher_data()
+                partes_tarefa[3] = f' {nova_data:<18} '
+            
+            linhas_originais[indice_real_no_arquivo] = '|'.join(partes_tarefa)
 
         with open("dados_tarefas.txt", "w", encoding="utf-8") as arquivo:
             for linha in linhas_originais:
@@ -138,4 +179,3 @@ while sim:
     except (ValueError, TypeError):
         print("\nEntrada inválida. Por favor, digite um número válido.")
         input("Pressione Enter para tentar novamente...")
-
