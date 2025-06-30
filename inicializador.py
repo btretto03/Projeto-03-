@@ -1,1 +1,1 @@
-exec(open("Interface.py").read(), enconding = 'utf-8')
+exec(open("Interface.py", encoding='utf-8').read())
