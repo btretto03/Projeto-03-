@@ -1,7 +1,6 @@
 import os
 import sys
 import re
-import textwrap
 from datetime import datetime
 from Tarefa import Tarefa
 
@@ -39,58 +38,9 @@ if __name__ == "__main__":
             """
         os.system('cls' if EH_WINDOWS else 'clear')
 
-    if EH_WINDOWS: #Caso o sistema operacional seja windows, usamos esse codigo para capturar a tecla
-        import msvcrt
-
-        def tecla_apertada():
-            """ Reconhece se o usuario aperta alguma tecla(nesse caso, as setas para navegar pelo menu)
-            
-            """
-            key = msvcrt.getch()
-            if key == b'\xe0':
-                key = msvcrt.getch()
-                if key == b'H': 
-                    return 'cima'
-                elif key == b'P': 
-                    return 'baixo'
-            elif key in [b'\r', b'\n']:
-                return 'enter'
-            elif key == b'\x1b':
-                return "Esc"
-            return None
-        
-    else: #Caso o sistema operacional seja linux ou macOS, usamos esse codigo para capturar a tecla
-        import termios
-        import tty
-
-        def tecla_apertada():
-            """ Reconhece se o usuario aperta alguma tecla(nesse caso, as setas para navegar pelo menu)
-            
-            """
-            fd = sys.stdin.fileno()
-            old = termios.tcgetattr(fd)
-            try:
-                tty.setraw(fd)
-                ch1 = sys.stdin.read(1)
-                if ch1 == '\x1b':
-                    ch2 = sys.stdin.read(1)
-                    ch3 = sys.stdin.read(1)
-                    if ch2 == '[':
-                        if ch3 == 'A': return 'cima'
-                        elif ch3 == 'B': return 'baixo'
-                    else:
-                        return "Esc"
-                elif ch1 == '\r':
-                    return 'enter'
-            finally:
-                termios.tcsetattr(fd, termios.TCSADRAIN, old)
-            return None
 
 
-   
-
-
-    def menu_criar(titulo = "", descricao = '', tags = "",prioridade = "",repetição = "",data = ""):
+    def menu_criar(titulo = "",tags = "",prioridade = "",repetição = "",data = ""):
         ''' Menu para criar novas tarefas
         
         '''
@@ -98,8 +48,6 @@ if __name__ == "__main__":
         print(WBLUE + f"{"Criar tarefa":^42}" + RESET)
         print(NEGRITO+"="*42+RESET )
         print(f"| Título:{titulo:32}|")
-        print("-"*42)
-        print(f"| Descrição:{descricao:29}|")    
         print("-"*42)
         print(f"| Tags: {tags:33}|")
         print("-"*42)
@@ -114,14 +62,12 @@ if __name__ == "__main__":
 
     # Inicial
     titulo = ""
-    descricao = ''
     tags = ""
     prioridade = ""
     repetição = ""
     data = ""
-    
 
-    menu_criar(titulo, descricao , tags, prioridade, repetição, data)
+    menu_criar(titulo, tags, prioridade, repetição, data)
 
     # Input Nome
     def escolher_titulo():
@@ -131,7 +77,6 @@ if __name__ == "__main__":
     titulo = escolher_titulo()
     menu_criar(titulo = titulo,tags = "",prioridade = "",repetição = "",data = "")
 
-    
     
     id_file = 'ultima_tarefa_id.txt'
 
@@ -163,90 +108,33 @@ if __name__ == "__main__":
     id = gerar_proximo_id()
 
 
-
     # Input tags
     def escolher_tag(): 
-        print("Escolha a tag:")
-        global opcao_tags  
-        for i, item in enumerate(tags):
-            if i == opcao_tags :
-                print( " "* 2 + SUBLINHADO + " "* 1 + f"  {item}     " + RESET)
-            else:
-                print(f"    {item}" )
-        
-    while True:  
-            escolher_tag()
-            tecla = tecla_apertada()
-            if tecla == 'cima':
-                limpar_tela()
-                menu_criar(titulo = titulo,tags = "",prioridade = "",repetição = "",data = "")
-                opcao_tags = (opcao_tags - 1) % len(tags)
-            elif tecla == 'baixo':
-                limpar_tela()
-                menu_criar(titulo = titulo,tags = "",prioridade = "",repetição = "",data = "")
-                opcao_tags = (opcao_tags + 1) % len(tags)
-            elif tecla == 'enter':
-                tags = "Indisponivel"
-                limpar_tela()
-                break      
-    menu_criar(titulo, tags, prioridade, repetição, data)
+        tags = input("Escolha a tag:")
+        limpar_tela()
+        return tags
+    tags = escolher_tag()
+    menu_criar(titulo = titulo,tags = tags,prioridade = "",repetição = "",data = "")
 
     
     # Input prioridade 
     def escolher_prioridades(): 
-        print("Defina a prioridade:")
-        global opcao_prioridades  
-        for i, item in enumerate(prioridades):
-            if i == opcao_prioridades :
-                print( " "* 2 + SUBLINHADO + " "* 1 + f"  {item}     " + RESET)
-            else:
-
-                print(f"    {item}" )
-
-    while True:
-            escolher_prioridades()
-            tecla = tecla_apertada()
-            if tecla == 'cima':
-                limpar_tela()
-                opcao_prioridades = (opcao_prioridades - 1) % len(prioridades)
-                menu_criar(titulo = titulo,tags = tags,prioridade = "",repetição = "",data = "")
-            elif tecla == 'baixo':
-                limpar_tela()
-                opcao_prioridades = (opcao_prioridades + 1) % len(prioridades)
-                menu_criar(titulo = titulo,tags = tags,prioridade = "",repetição = "",data = "")
-            elif tecla == 'enter':
-                prioridade = prioridades[opcao_prioridades]
-                limpar_tela()
-                break
-    menu_criar(titulo, tags, prioridade, repetição, data)
+        prioridades = input("Defina a prioridade:")
+        limpar_tela()
+        return prioridades
+    prioridades = escolher_prioridades()
+    menu_criar(titulo = titulo,tags = tags,prioridade = prioridades,repetição = "",data = "")
 
 
     # Input repeticao
     def escolher_repeticao(): 
-        print("Escolha a frêquencia:")
-        global opcao_repeticao  
-        for i, item in enumerate(repeticao):
-            if i == opcao_repeticao :
-                print( " "* 2 + SUBLINHADO + " "* 1 + f"  {item}     " + RESET)
-            else:
-                print(f"    {item}" )
+        print(f"{1} Semanal \n {2} Baixa")
+        repetição = int(input("Escolha a frêquencia:"))
+        limpar_tela() 
+        return repetição
 
-    while True:
-            escolher_repeticao()
-            tecla = tecla_apertada()
-            if tecla == 'cima':
-                limpar_tela()
-                opcao_repeticao = (opcao_repeticao - 1) % len(repeticao)
-                menu_criar(titulo = titulo,tags = tags,prioridade = prioridade,repetição = "",data = "")
-            elif tecla == 'baixo':
-                limpar_tela()
-                opcao_repeticao = (opcao_repeticao + 1) % len(repeticao)
-                menu_criar(titulo = titulo,tags = tags,prioridade = prioridade,repetição = "",data = "")
-            elif tecla == 'enter':
-                repetição = repeticao[opcao_repeticao]
-                limpar_tela()
-                break
-    menu_criar(titulo, tags, prioridade, repetição, data)
+    repetição = escolher_repeticao()
+    menu_criar(titulo = titulo,tags = tags,prioridade = prioridades,repetição = repetição,data = "")
 
    
     def escolher_data():
@@ -257,12 +145,6 @@ if __name__ == "__main__":
         while True:
             data = input('data (dd/mm/aaaa): ')
             limpar_tela()
-
-
-             # permite a entrada vazia
-            if not data.strip():
-                return ''
-
             
             #Verifica o formato dd/mm/aaaa
             if re.match(r'^\d{2}\/\d{2}\/\d{4}$', data):
@@ -279,9 +161,7 @@ if __name__ == "__main__":
                 print('Exemplo: 01/01/2025')
 
     data = escolher_data()
-    menu_criar(titulo, tags, prioridade, repetição, data)
-    
-    nova_tarefa = Tarefa(titulo = titulo, id=id, tags = tags, prioridade = prioridade, repetição = repetição, data = data)
+    menu_criar(titulo = titulo,tags = tags,prioridade = prioridades,repetição = repetição,data = data)
     
     
     with open("dados_tarefas.txt", "a", encoding = 'utf-8') as escrever:
