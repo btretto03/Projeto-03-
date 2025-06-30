@@ -82,7 +82,8 @@ def funcao_criar_lista():
     nome = input("Digite o nome da nova lista: ")
 
     if not nome:
-        print("\nO nome não pode ser vazio."); input("Pressione Enter..."); return
+        print("\nO nome não pode ser vazio."); input("Pressione Enter..."); 
+        return
 
     id_gerado = gerar_proximo_id()
 
@@ -130,14 +131,16 @@ def funcao_remover_lista():
         listas = []
 
     if not listas:
-        print("\nNenhuma lista para remover."); input("Pressione Enter..."); return
+        print("\nNenhuma lista para remover."); input("Pressione Enter..."); 
+        return
         
     print("Listas atuais:")
     for linha in listas: print(f"  - {linha.strip().split(' | ')[0]}")
     print("-" * 40)
 
     id_para_remover = input("Digite o ID da lista a remover, uma por vez (ou 's' para sair): ")
-    if id_para_remover.lower() == 's' or not id_para_remover.isdigit(): return
+    if id_para_remover.lower() == 's' or not id_para_remover.isdigit(): 
+        return
 
     nome_removido = None
     listas_atualizadas = []
