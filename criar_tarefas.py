@@ -110,7 +110,7 @@ if __name__ == "__main__":
     
     
     with open("dados_tarefas.txt", "a", encoding = 'utf-8') as escrever:
-        escrever.write(f"-  {titulo:20} | {tags:20} | {prioridades:20} | {data:20} | {"Não concluida":20} " "\n")
+        escrever.write(f"-  {titulo:20} | {tags:20} | {prioridades:20} | {data:20} | {id:20} | {"Não concluida":20} " "\n")
     with open("Nomes_tarefas.txt", "a", encoding = 'utf-8') as escrever:
         escrever.write(f"{titulo} - {id}" "\n")
             
