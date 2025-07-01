@@ -1,6 +1,6 @@
 import os
 import padrao
-from Lista_de_Tarefas import Lista_de_Tarefas
+from Lista_Tarefas import Lista_de_Tarefas
 
 lista_tarefas = Lista_de_Tarefas()
 

@@ -53,16 +53,19 @@ with open("dados_listas_tarefas.txt", "r", encoding='utf-8') as dados_listas_tar
         lista_lista_tarefas.append(lista_tarefa)
         
 def filtrar_tarefas_lista(lista_dados, lista_lista_tarefas, i):
-    tarefas_na_lista = []
 
+    tarefas_na_lista = []
+    with open("dados_tarefas.txt", "r", encoding='utf-8') as dados: #Visualizar as tarefas no arquivo e adiciona-las a uma lista
+        for tarefa in dados:
+         partes = [parte.strip() for parte in tarefa.split('|')]
 
 
     for tarefa in lista_dados:
 
         for valor in lista_lista_tarefas[i]['nomes_tarefas'].values():
-            if int(tarefa['id']) == (valor):
+            if int(partes[4]) == (valor):
                 tarefas_na_lista.append(tarefa)
-            
+
     return tarefas_na_lista
 
 lista_tags = []
