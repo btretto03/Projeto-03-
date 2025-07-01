@@ -195,12 +195,12 @@ def ordena_por_prioridade(dicionario):
 
 def ver_tarefa(lista, prioridade):
     lista_ordenada = sorted(lista, key=prioridade)
-    print(padrao.NEGRITO+"="*88+padrao.RESET )
-    print(f"{"     Tarefas ":12}  | {"       Tag":16}| {"  Prioridade":14} | {"     Data":14} | {"     Concluida   "} ")
-    print(padrao.NEGRITO+"="*88+padrao.RESET )
+    print(padrao.NEGRITO+"="*120+padrao.RESET )
+    print(f"{"      Tarefas":17}   | {"       Tag":20}| {"  Prioridade":20}| {"    Data":20}| {"     Concluida   "} ")
+    print(padrao.NEGRITO+"="*120+padrao.RESET )
     for item in lista_ordenada:
         for i in item.values():
-            print(f"   {i:10}  | ", end = "")
+            print(f"   {i:15}  | ", end = "")
         print()
     print()
 
@@ -218,16 +218,24 @@ def desenhar_layout():
             print('[1] Visualizar todas as tarefas')
             print('[2] Visualizar tarefas de uma tag')
             print('[3] Visualizar tarefas de uma lista')
+            print('[4] Sair')
             num1 = int(input('Digite o numero: '))
-            if num1 == 1:
+            if num1 == 4:
+                break 
+
+            elif num1 == 1:
                 padrao.limpar()
                 print('Como você deseja visualizar suas tarefas?')
                 print('[1] Visualizar todas as tarefas ')
                 print('[2] Visualizar todas as tarefas não concluidas')
                 print('[3] Visualiar apenas tarefas com data até hoje')
                 print('[4] Visualiar apenas tarefas com data até 7 dias')
+                print('[5] Voltar ao menu principal')
                 num2 = int(input('Digite o numero: '))
-                if num2 == 1:
+                if num2 == 5:
+                    break
+
+                elif num2 == 1:
                     print('Como você deseja ordena-las')
                     print('[1] Ordenar por data')
                     print('[2] Ordenar por prioridade')
@@ -272,6 +280,7 @@ def desenhar_layout():
                     print('Como você deseja ordena-las')
                     print('[1] Ordenar por data')
                     print('[2] Ordenar por prioridade')
+                    num3 = int(input('Digite o numero: '))
                     if num3 == 1:
                         ver_tarefa(tarefas_ate_7_dias, ordenada_por_data)
 
@@ -292,7 +301,12 @@ def desenhar_layout():
                 print('[2] Visualizar todas as tarefas não concluidasda da tag ', lista_tags[num2-i])
                 print('[3] Visualiar apenas tarefas com data até hojeda da tag ', lista_tags[num2-i])
                 print('[4] Visualiar apenas tarefas com data até 7 diasda da tag ', lista_tags[num2-i])
+                print('[5] Voltar ao menu principal')
                 num3 = int(input('Digite o numero: '))
+
+                if num3 ==5:
+                    break
+
                 if num3 == 1:
                     print('Como você deseja ordena-las')
                     print('[1] Ordenar por data')
@@ -356,7 +370,11 @@ def desenhar_layout():
                 print('[2] Visualizar todas as tarefas não concluidas da lista ', lista_lista_tarefas[num2-1]['nome_lista'])
                 print('[3] Visualiar apenas tarefas com data até hoje da lista ', lista_lista_tarefas[num2-1]['nome_lista'])
                 print('[4] Visualiar apenas tarefas com data até 7 dias da lista ', lista_lista_tarefas[num2-1]['nome_lista'])
+                print('[5] Voltar ao menu principal')
                 num3 = int(input('Digite o numero: '))
+                if num3 == 5:
+                    break
+
                 if num3 == 1:
                     print('Como você deseja ordena-las')
                     print('[1] Ordenar por data')
