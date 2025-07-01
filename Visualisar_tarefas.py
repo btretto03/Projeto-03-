@@ -5,6 +5,8 @@ import padrao
 from datetime import datetime, timedelta, date
 import re
 
+
+
 lista_dados = []
 with open("dados_tarefas.txt", "r", encoding='utf-8') as dados: #Visualizar as tarefas no arquivo e adiciona-las a uma lista
     for tarefa in dados:
@@ -14,9 +16,10 @@ with open("dados_tarefas.txt", "r", encoding='utf-8') as dados: #Visualizar as t
             'tag': partes[1],
             'prioridade': partes[2] if partes[2] else 'Não informada',
             'data': partes[3] if partes[3] else 'Não informada',
-            'id': partes[4],
+            
             'concluida': partes[5]
         }
+        
         lista_dados.append(dicionario_dados)
 
 lista_lista_tarefas = []
@@ -190,6 +193,17 @@ def ordena_por_prioridade(dicionario):
 
     return (prioridade_para_ordenar, data_status, data_objeto)
 
+def ver_tarefa(lista, prioridade):
+    lista_ordenada = sorted(lista, key=prioridade)
+    print(padrao.NEGRITO+"="*88+padrao.RESET )
+    print(f"{"     Tarefas ":12}  | {"       Tag":16}| {"  Prioridade":14} | {"     Data":14} | {"     Concluida   "} ")
+    print(padrao.NEGRITO+"="*88+padrao.RESET )
+    for item in lista_ordenada:
+        for i in item.values():
+            print(f"   {i:10}  | ", end = "")
+        print()
+    print()
+
 
 padrao.limpar()
 def desenhar_layout():
@@ -219,13 +233,13 @@ def desenhar_layout():
                     print('[2] Ordenar por prioridade')
                     num3 = int(input('Digite o numero: '))
                     if num3 == 1:
-                        lista_ordenada = sorted(lista_dados, key=ordenada_por_data)
-                        for item in lista_ordenada:
-                            print(item)
+                        ver_tarefa(lista_dados, ordenada_por_data)
+                        
+                                                 
                     elif num3 == 2:
-                        lista_ordenada = sorted(lista_dados, key=ordena_por_prioridade)
-                        for item in lista_ordenada:
-                            print(item)     
+                        ver_tarefa(lista_dados, ordena_por_prioridade)
+      
+      
                 elif num2 == 2:
                     tarefas_nao_concluidas = filtrar_tarefas_nao_concluidas(lista_dados)
                     print('Como você deseja ordena-las')
@@ -233,13 +247,11 @@ def desenhar_layout():
                     print('[2] Ordenar por prioridade')
                     num3 = int(input('Digite o numero: '))
                     if num3 == 1:
-                        lista_ordenada = sorted(tarefas_nao_concluidas, key=ordenada_por_data)
-                        for item in lista_ordenada:
-                            print(item)
+                        ver_tarefa(tarefas_nao_concluidas, ordenada_por_data)
+
                     elif num3 == 2:
-                        lista_ordenada = sorted(tarefas_nao_concluidas, key=ordena_por_prioridade)
-                        for item in lista_ordenada:
-                            print(item)  
+                        ver_tarefa(tarefas_nao_concluidas, ordena_por_prioridade)
+
 
                 elif num2 == 3:
                     tarefas_ate_hoje = filtrar_tarefas_ate_hoje(lista_dados)
@@ -247,14 +259,13 @@ def desenhar_layout():
                     print('[1] Ordenar por data')
                     print('[2] Ordenar por prioridade')                   
                     num3 = int(input('Digite o numero: '))
+                    
                     if num3 == 1:
-                        lista_ordenada = sorted(tarefas_ate_hoje, key=ordenada_por_data)
-                        for item in lista_ordenada:
-                            print(item)
+                        ver_tarefa(tarefas_ate_hoje, ordenada_por_data)
+
                     elif num3 == 2:
-                        lista_ordenada = sorted(tarefas_ate_hoje, key=ordena_por_prioridade)
-                        for item in lista_ordenada:
-                            print(item)
+                        ver_tarefa(tarefas_ate_hoje, ordena_por_prioridade)
+
 
                 elif num2 == 4:
                     tarefas_ate_7_dias = filtrar_data_ate_7_dias(lista_dados)
@@ -262,14 +273,11 @@ def desenhar_layout():
                     print('[1] Ordenar por data')
                     print('[2] Ordenar por prioridade')
                     if num3 == 1:
-                        lista_ordenada = sorted(tarefas_ate_7_dias, key=ordenada_por_data)
-                        for item in lista_ordenada:
-                            print(item)
+                        ver_tarefa(tarefas_ate_7_dias, ordenada_por_data)
+
                     elif num3 == 2:
-                        lista_ordenada = sorted(tarefas_ate_7_dias, key=ordena_por_prioridade)
-                        for item in lista_ordenada:
-                            print(item)
-            
+                        ver_tarefa(tarefas_ate_7_dias, ordena_por_prioridade)
+
             
             if num1 == 2:
                 print('De qual tag você gostaria de ver as tarefas')
@@ -291,14 +299,11 @@ def desenhar_layout():
                     print('[2] Ordenar por prioridade')
                     num4 = int(input('Digite o numero: '))
                     if num4 == 1:
-                        lista_ordenada = sorted(tarefas_com_tag, key=ordenada_por_data)
-                        for item in lista_ordenada:
-                            print(item)
-                    elif num3 == 2:
-                        lista_ordenada = sorted(tarefas_com_tag,    key=ordena_por_prioridade)
-                        for item in lista_ordenada:
-                            print(item)  
+                        ver_tarefa(tarefas_com_tag, ordenada_por_data)
 
+                    elif num3 == 2:
+                        ver_tarefa(tarefas_com_tag, ordena_por_prioridade)
+ 
 
                 elif num3 == 2:
                     tarefas_nao_concluidas = filtrar_tarefas_nao_concluidas(tarefas_com_tag)
@@ -307,14 +312,10 @@ def desenhar_layout():
                     print('[2] Ordenar por prioridade')
                     num3 = int(input('Digite o numero: '))
                     if num3 == 1:
-                        lista_ordenada = sorted(tarefas_nao_concluidas, key=ordenada_por_data)
-                        for item in lista_ordenada:
-                            print(item)
+                        ver_tarefa(tarefas_nao_concluidas, ordenada_por_data)
+                        
                     elif num3 == 2:
-                        lista_ordenada = sorted(tarefas_nao_concluidas, key=ordena_por_prioridade)
-                        for item in lista_ordenada:
-                            print(item)  
-
+                        ver_tarefa(tarefas_nao_concluidas, ordena_por_prioridade)
 
 
                 elif num2 == 3:
@@ -324,13 +325,10 @@ def desenhar_layout():
                     print('[2] Ordenar por prioridade')                   
                     num3 = int(input('Digite o numero: '))
                     if num3 == 1:
-                        lista_ordenada = sorted(tarefas_ate_hoje, key=ordenada_por_data)
-                        for item in lista_ordenada:
-                            print(item)
+                        ver_tarefa(tarefas_ate_hoje, ordenada_por_data)
+
                     elif num3 == 2:
-                        lista_ordenada = sorted(tarefas_ate_hoje, key=ordena_por_prioridade)
-                        for item in lista_ordenada:
-                            print(item)
+                        ver_tarefa(tarefas_ate_hoje, ordena_por_prioridade)
 
                 elif num2 == 4:
                     tarefas_ate_7_dias = filtrar_data_ate_7_dias(tarefas_com_tag)
@@ -338,14 +336,10 @@ def desenhar_layout():
                     print('[1] Ordenar por data')
                     print('[2] Ordenar por prioridade')
                     if num3 == 1:
-                        lista_ordenada = sorted(tarefas_ate_7_dias, key=ordenada_por_data)
-                        for item in lista_ordenada:
-                            print(item)
-                    elif num3 == 2:
-                        lista_ordenada = sorted(tarefas_ate_7_dias, key=ordena_por_prioridade)
-                        for item in lista_ordenada:
-                            print(item)
+                        ver_tarefa(tarefas_ate_7_dias, ordenada_por_data)
 
+                    elif num3 == 2:
+                        ver_tarefa(tarefas_ate_7_dias, ordena_por_prioridade)
 
 
             if num1 == 3:
@@ -369,13 +363,10 @@ def desenhar_layout():
                     print('[2] Ordenar por prioridade')
                     num4 = int(input('Digite o numero: '))
                     if num4 == 1:
-                        lista_ordenada = sorted(tarefas_na_lista, key=ordenada_por_data)
-                        for item in lista_ordenada:
-                            print(item)
+                        ver_tarefa(tarefas_na_lista, ordenada_por_data)
+
                     elif num3 == 2:
-                        lista_ordenada = sorted(tarefas_na_lista,    key=ordena_por_prioridade)
-                        for item in lista_ordenada:
-                            print(item)  
+                        ver_tarefa(tarefas_na_lista, ordena_por_prioridade)
 
 
                 elif num3 == 2:
@@ -385,13 +376,10 @@ def desenhar_layout():
                     print('[2] Ordenar por prioridade')
                     num3 = int(input('Digite o numero: '))
                     if num3 == 1:
-                        lista_ordenada = sorted(tarefas_nao_concluidas, key=ordenada_por_data)
-                        for item in lista_ordenada:
-                            print(item)
+                        ver_tarefa(tarefas_nao_concluidas, ordenada_por_data)
+
                     elif num3 == 2:
-                        lista_ordenada = sorted(tarefas_nao_concluidas, key=ordena_por_prioridade)
-                        for item in lista_ordenada:
-                            print(item)  
+                        ver_tarefa(tarefas_nao_concluidas, ordena_por_prioridade) 
 
 
 
@@ -402,13 +390,11 @@ def desenhar_layout():
                     print('[2] Ordenar por prioridade')                   
                     num3 = int(input('Digite o numero: '))
                     if num3 == 1:
-                        lista_ordenada = sorted(tarefas_ate_hoje, key=ordenada_por_data)
-                        for item in lista_ordenada:
-                            print(item)
+                        ver_tarefa(tarefas_ate_hoje, ordenada_por_data)
+
                     elif num3 == 2:
-                        lista_ordenada = sorted(tarefas_ate_hoje, key=ordena_por_prioridade)
-                        for item in lista_ordenada:
-                            print(item)
+                        ver_tarefa(tarefas_ate_hoje, ordena_por_prioridade)
+
 
                 elif num2 == 4:
                     tarefas_ate_7_dias = filtrar_data_ate_7_dias(tarefas_na_lista)
@@ -416,13 +402,11 @@ def desenhar_layout():
                     print('[1] Ordenar por data')
                     print('[2] Ordenar por prioridade')
                     if num3 == 1:
-                        lista_ordenada = sorted(tarefas_ate_7_dias, key=ordenada_por_data)
-                        for item in lista_ordenada:
-                            print(item)
+                        ver_tarefa(tarefas_ate_7_dias, ordenada_por_data)
+                        
                     elif num3 == 2:
-                        lista_ordenada = sorted(tarefas_ate_7_dias, key=ordena_por_prioridade)
-                        for item in lista_ordenada:
-                            print(item)
+                        ver_tarefa(tarefas_ate_7_dias, ordena_por_prioridade)
+
 
 
 desenhar_layout()
